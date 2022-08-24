@@ -1,0 +1,9 @@
+.wrapper {
+  color: #cb3d40;
+  font-size: 18px;
+  margin-bottom: -40px;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+.wrapper li {
+}
