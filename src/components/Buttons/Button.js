@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import s from "./Button.module.css";
+import s from "./Button.module.scss";
 
 const Button = ({ text, wide = false, disabled = false, onClick }) => {
   const buttonClasses = classNames({

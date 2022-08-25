@@ -1,0 +1,20 @@
+.btn {
+   position: relative;
+   align-self: center;
+   width: 100px;
+   height: 34px;
+   background-color: #f4e041;
+   border-radius: 17px;
+   text-align: center;
+   cursor: pointer;
+   &.wide {
+      width: 120px;
+   }
+   &.disabled {
+      background-color: #b4b4b4;
+      color: #fff;
+   }
+   & span {
+      line-height: 34px;
+   }
+}

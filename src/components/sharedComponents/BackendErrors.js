@@ -1,4 +1,4 @@
-import s from "./BackendErrors.module.css";
+import s from "./BackendErrors.module.scss";
 
 const BackendErrors = ({ backendErrors }) => {
   if (backendErrors) {

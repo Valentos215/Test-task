@@ -1,4 +1,4 @@
-import s from "./Successfull.module.css";
+import s from "./Successfull.module.scss";
 import successImage from "../../Assets/success-image.svg";
 
 const Successfull = ({ text, wide = false, disabled = false }) => {

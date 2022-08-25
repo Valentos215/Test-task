@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import Skeleton from "./components/Description/Skeleton";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";

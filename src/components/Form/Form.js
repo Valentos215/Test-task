@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import s from "./Form.module.css";
+import s from "./Form.module.scss";
 import Button from "../Buttons/Button";
 import Successfull from "./Successfull";
 import useFetch from "../../hooks/useFetch";
@@ -136,10 +136,14 @@ const Form = () => {
       <>
         <div id="form" className={s.wrapper}>
           <h1>Working with POST request</h1>
-          <div className={s.form__container}>
+          <div className={s.container}>
             <form className={s.form}>
               {error && <BackendErrors backendErrors={error.fails} />}
-              <div className={nameError ? `${s.input} ${s.error}` : s.input}>
+              <div
+                className={
+                  nameError ? `${s.inputItem} ${s.error}` : s.inputItem
+                }
+              >
                 <span>Name</span>
                 <input
                   value={formik.values.username}
@@ -152,7 +156,11 @@ const Form = () => {
                   <div className={s.errorMes}>{formik.errors.username}</div>
                 )}
               </div>
-              <div className={emailError ? `${s.input} ${s.error}` : s.input}>
+              <div
+                className={
+                  emailError ? `${s.inputItem} ${s.error}` : s.inputItem
+                }
+              >
                 <span>Email</span>
                 <input
                   value={formik.values.email}
@@ -161,11 +169,15 @@ const Form = () => {
                   placeholder="Email"
                   onBlur={formik.handleBlur}
                 />
+                {emailError && (
+                  <div className={s.errorMes}>{formik.errors.email}</div>
+                )}
               </div>
-              {emailError && (
-                <div className={s.errorMes}>{formik.errors.email}</div>
-              )}
-              <div className={phoneError ? `${s.input} ${s.error}` : s.input}>
+              <div
+                className={
+                  phoneError ? `${s.inputItem} ${s.error}` : s.inputItem
+                }
+              >
                 <span>Phone</span>
                 <input
                   value={formik.values.phone}
@@ -210,7 +222,7 @@ const Form = () => {
                   fileError ? `${s.customUpload} ${s.error}` : s.customUpload
                 }
               >
-                <label className={s.customUpload__button}>
+                <label>
                   <input
                     name="file"
                     type="file"

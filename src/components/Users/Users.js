@@ -4,7 +4,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import Button from "../Buttons/Button";
 import Preloader from "../sharedComponents/Preloader";
 import Card from "./Card";
-import s from "./Users.module.css";
+import s from "./Users.module.scss";
 
 const Users = () => {
   const [page, setPage] = useState(1);
@@ -53,7 +53,7 @@ const Users = () => {
     <div className="container">
       <div className={s.users} id="users">
         <h1>Working with GET request</h1>
-        <div className={s.cards}>
+        <div className={s.users__cards}>
           {users &&
             users.map((user) => (
               <Card
