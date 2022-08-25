@@ -1,7 +1,20 @@
+import React from "react";
 import classNames from "classnames";
 import s from "./Button.module.scss";
 
-const Button = ({ text, wide = false, disabled = false, onClick }) => {
+type ButtonProps = {
+  text: string;
+  wide?: boolean;
+  disabled?: boolean;
+  onClick?: () => void;
+};
+
+const Button: React.FC<ButtonProps> = ({
+  text,
+  wide = false,
+  disabled = false,
+  onClick,
+}) => {
   const buttonClasses = classNames({
     [s.btn]: true,
     [s.wide]: wide,

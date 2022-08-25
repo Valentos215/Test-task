@@ -1,34 +1,41 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import useLocalStorage from "../../hooks/useLocalStorage";
 import Button from "../Buttons/Button";
 import Preloader from "../sharedComponents/Preloader";
 import Card from "./Card";
 import s from "./Users.module.scss";
 
-const Users = () => {
+type user = {
+  id: number;
+  photo: string;
+  name: string;
+  position: string;
+  email: string;
+  phone: string;
+};
+
+const Users = ({ isSignedUp }) => {
   const [page, setPage] = useState(1);
   const apiUrl = `users?page=${page}&count=6`;
   const { isLoading, response, error, doFetch } = useFetch(apiUrl);
-  const [auth] = useLocalStorage("auth");
-  const [users, setUsers] = useState([]);
-  const lastPage = response && response.total_pages <= page;
+  const [users, setUsers] = useState<user[]>([]);
+  const isLastPage = response && response.total_pages <= page;
 
   const buttonClick = () => {
     if (isLoading) {
       return;
     }
-    if (!lastPage) {
+    if (!isLastPage) {
       setPage(page + 1);
     }
   };
 
   useEffect(() => {
-    if (!auth) {
+    if (!isSignedUp) {
       return;
     }
     setPage(1);
-  }, [auth]);
+  }, [isSignedUp]);
 
   useEffect(() => {
     doFetch();
@@ -70,7 +77,7 @@ const Users = () => {
         <Button
           text="Show more"
           wide={true}
-          disabled={lastPage || isLoading}
+          disabled={isLastPage || isLoading}
           onClick={buttonClick}
         />
       </div>

@@ -10,7 +10,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import BackendErrors from "../sharedComponents/BackendErrors";
 import { scroller } from "react-scroll";
 
-const Form = () => {
+const Form = ({ doSignedUp }) => {
   const {
     isLoading: posLoading,
     response: posResponse,
@@ -23,10 +23,11 @@ const Form = () => {
     doFetch: doAuth,
   } = useFetch("users");
   const [auth, setAuth] = useLocalStorage("auth");
-
-  const [positions, setPositions] = useState([]);
+  const [positions, setPositions] = useState<{ id: number; name: string }[]>(
+    []
+  );
   const [checked, setChecked] = useState(1);
-  const [fileBody, setFileBody] = useState(null);
+  const [fileBody, setFileBody] = useState<File | null>(null);
   const [fileError, setFileError] = useState("");
 
   const errorMes = {
@@ -68,12 +69,11 @@ const Form = () => {
       if (!values.file) setFileError(errorMes.fileRequired);
       if (values.file && !authLoading) {
         var formData = new FormData();
-        //formData.append("name", values.username);
+        formData.append("name", values.username);
         formData.append("email", values.email);
         formData.append("phone", values.phone);
-        formData.append("position_id", checked);
-        formData.append("photo", fileBody);
-
+        formData.append("position_id", String(checked));
+        if (fileBody) formData.append("photo", fileBody);
         doAuth({
           method: "post",
           data: formData,
@@ -82,10 +82,10 @@ const Form = () => {
     },
   });
 
-  const setFile = (e) => {
+  const setFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
-    setFileError(null);
-    if (e.target.files[0]) {
+    setFileError("");
+    if (e.target.files) {
       setFileBody(e.target.files[0]);
       if (
         e.target.files[0].size / 1024 > 5000 ||
@@ -114,9 +114,10 @@ const Form = () => {
     if (!authResponse) {
       return;
     }
-    setAuth(true);
-    scroller.scrollTo("users", { duration: 1000, smooth: true });
-  }, [authResponse, setAuth]);
+    setAuth("authorized");
+    doSignedUp();
+    scroller.scrollTo("users", { duration: 1000, smooth: true, offset: -50 });
+  }, [authResponse, setAuth, doSignedUp]);
 
   let nameError =
     (formik.touched.username && formik.errors.username) ||
@@ -130,15 +131,14 @@ const Form = () => {
 
   if (auth) {
     return <Successfull />;
-  }
-  if (!auth)
+  } else {
     return (
       <>
         <div id="form" className={s.wrapper}>
           <h1>Working with POST request</h1>
           <div className={s.container}>
             <form className={s.form}>
-              {error && <BackendErrors backendErrors={error.fails} />}
+              {error && <BackendErrors backendErrors={error} />}
               <div
                 className={
                   nameError ? `${s.inputItem} ${s.error}` : s.inputItem
@@ -239,12 +239,13 @@ const Form = () => {
           <Button
             onClick={formik.handleSubmit}
             text="Sign up"
-            disabled={!formik.isValid || fileError || authLoading}
+            disabled={!formik.isValid || !!fileError || authLoading}
           />
         </div>
         <div className={s.space}></div>
       </>
     );
+  }
 };
 
 export default Form;

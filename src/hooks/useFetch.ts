@@ -2,12 +2,42 @@ import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import useLocalStorage from "./useLocalStorage";
 
-const useFetch = (url) => {
+type ResponseType = {
+  token: string;
+  positions: { id: number; name: string }[];
+  total_pages: number;
+  users: {
+    id: number;
+    photo: string;
+    name: string;
+    position: string;
+    email: string;
+    phone: string;
+  }[];
+};
+
+type Options =
+  | {
+      method: "get" | "post" | "put" | "delete";
+      data: FormData;
+    }
+  | {};
+
+type Error = { fails: { name: string[] }[]; message: string };
+
+type UseFetchResult = {
+  isLoading: boolean;
+  response: ResponseType | null;
+  error: Error | null;
+  doFetch: (options?: Options) => void;
+};
+
+const useFetch = (url: string): UseFetchResult => {
   const baseUrl = "https://frontend-test-assignment-api.abz.agency/api/v1/";
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState(null);
-  const [options, setOptions] = useState({});
+  const [response, setResponse] = useState<ResponseType | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+  const [options, setOptions] = useState<Options>({});
   const [token] = useLocalStorage("token");
 
   const doFetch = useCallback((options = {}) => {

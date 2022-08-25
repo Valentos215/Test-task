@@ -1,3 +1,4 @@
+import React from "react";
 import s from "./Description.module.scss";
 import Button from "../Buttons/Button";
 import { Link } from "react-scroll";
