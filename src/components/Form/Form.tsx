@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import s from "./Form.module.scss";
 import Button from "../Buttons/Button";
-import Successfull from "./Successfull";
 import useFetch from "../../hooks/useFetch";
 import Preloader from "../sharedComponents/Preloader";
 import { useFormik } from "formik";
@@ -9,6 +8,7 @@ import * as Yup from "yup";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import BackendErrors from "../sharedComponents/BackendErrors";
 import { scroller } from "react-scroll";
+const Successfull = React.lazy(() => import("./Successfull"));
 
 const Form = ({ doSignedUp }) => {
   const {
@@ -130,7 +130,11 @@ const Form = ({ doSignedUp }) => {
     formik.errors.phone === errorMes.phoneLength;
 
   if (auth) {
-    return <Successfull />;
+    return (
+      <React.Suspense fallback={<Preloader />}>
+        <Successfull />
+      </React.Suspense>
+    );
   } else {
     return (
       <>
