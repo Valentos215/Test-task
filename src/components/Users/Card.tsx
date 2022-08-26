@@ -1,6 +1,9 @@
 import React from "react";
 import Tooltip from "../sharedComponents/Tooltip";
 import s from "./Card.module.scss";
+import photoCover from "../../Assets/photo-cover.svg";
+
+const Photo = React.lazy(() => import("./Photo"));
 
 type CardProps = {
   image: string;
@@ -27,7 +30,9 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className={s.card}>
       <div className={s.card__photo}>
-        <img src={image} alt=""></img>
+        <React.Suspense fallback={<img src={photoCover} alt="" />}>
+          <Photo imgUrl={image} />
+        </React.Suspense>
       </div>
       <Tooltip content={username}>
         <div className={s.card__username}>{wordLength(username)}</div>
