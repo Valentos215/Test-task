@@ -20,11 +20,9 @@ const Users = ({ isSignedUp }) => {
   const [users, setUsers] = useState<user[]>([]);
   const [newUsersCount, setNewUsersCount] = useState(0);
   const [totalCount, setTotalCount] = useState(1);
-  const apiUrl = `users?offset=${offset}&count=${count}`;
+  const apiUrl = `users?offset=${offset}&count=${count + newUsersCount}`;
   const { isLoading, response, error, doFetch } = useFetch(apiUrl);
-  const isLastPage = totalCount <= offset + count;
-
-  console.log(newUsersCount);
+  const isLastPage = totalCount <= offset + count + newUsersCount;
 
   const buttonClick = () => {
     if (isLoading) {
