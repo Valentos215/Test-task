@@ -5,7 +5,7 @@ import useLocalStorage from "./useLocalStorage";
 type ResponseType = {
   token: string;
   positions: { id: number; name: string }[];
-  total_pages: number;
+  total_users: number;
   users: {
     id: number;
     photo: string;

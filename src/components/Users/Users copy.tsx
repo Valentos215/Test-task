@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import Button from "../Buttons/Button";
 import Preloader from "../sharedComponents/Preloader";
@@ -15,66 +15,42 @@ type user = {
 };
 
 const Users = ({ isSignedUp }) => {
-  const count = 6;
-  const [offset, setOffset] = useState(count);
-  const [users, setUsers] = useState<user[]>([]);
-  const [newUsersCount, setNewUsersCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(1);
-  const apiUrl = `users?offset=${offset}&count=${count}`;
+  const [page, setPage] = useState(1);
+  const apiUrl = `users?page=${page}&count=6`;
   const { isLoading, response, error, doFetch } = useFetch(apiUrl);
-  const isLastPage = totalCount <= offset + count;
-
-  console.log(newUsersCount);
+  const [users, setUsers] = useState<user[]>([]);
+  const isLastPage = response && response.total_pages <= page;
 
   const buttonClick = () => {
     if (isLoading) {
       return;
     }
     if (!isLastPage) {
-      setOffset(offset + newUsersCount + count);
+      setPage(page + 1);
     }
   };
-
-  const newUsersCounter = useCallback((currentTotalCount: number): void => {
-    if (offset !== count) setNewUsersCount(currentTotalCount - totalCount);
-    setTotalCount(currentTotalCount);
-  }, []);
-
-  const pushUsers = useCallback(
-    (respUsers: user[]): void => {
-      let arr: user[] = [];
-      respUsers.forEach((user) => {
-        if (!users.some((u) => u.id === user.id)) {
-          arr.push(user);
-        }
-      });
-      if (offset === count) {
-        setUsers([...arr]);
-      } else {
-        setUsers([...users, ...arr]);
-      }
-    },
-    [offset]
-  );
 
   useEffect(() => {
     if (!isSignedUp) {
       return;
     }
-    setOffset(count);
+    setPage(1);
   }, [isSignedUp]);
 
   useEffect(() => {
     doFetch();
-  }, [offset, doFetch]);
+  }, [page, doFetch]);
 
   useEffect(() => {
     if (!response) {
       return;
     }
-    pushUsers(response.users);
-    newUsersCounter(response.total_users);
-  }, [response, pushUsers, newUsersCounter]);
+    if (page === 1) {
+      setUsers(response.users);
+    } else {
+      setUsers([...users, ...response.users]);
+    }
+  }, [response]);
 
   if (error) {
     return <h1 className={s.error}>Something went wrong</h1>;
