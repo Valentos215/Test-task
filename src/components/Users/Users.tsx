@@ -16,50 +16,46 @@ type user = {
 
 const Users = ({ isSignedUp }) => {
   const count = 6;
-  const [offset, setOffset] = useState(count);
+  const overlay = 5;
+  const [offset, setOffset] = useState(0);
   const [users, setUsers] = useState<user[]>([]);
-  const [newUsersCount, setNewUsersCount] = useState(0);
-  const [totalCount, setTotalCount] = useState(1);
-  const apiUrl = `users?offset=${offset}&count=${count + newUsersCount}`;
+  const apiUrl = `users?offset=${offset}&count=${count + overlay}`;
   const { isLoading, response, error, doFetch } = useFetch(apiUrl);
-  const isLastPage = totalCount <= offset + count + newUsersCount;
+  const isLastPage = response && response.total_users <= offset + count;
 
   const buttonClick = () => {
     if (isLoading) {
       return;
     }
     if (!isLastPage) {
-      setOffset(offset + newUsersCount + count);
+      setOffset(offset + count);
     }
   };
 
-  const newUsersCounter = useCallback((currentTotalCount: number): void => {
-    if (offset !== count) setNewUsersCount(currentTotalCount - totalCount);
-    setTotalCount(currentTotalCount);
-  }, []);
-
   const pushUsers = useCallback(
     (respUsers: user[]): void => {
-      let arr: user[] = [];
-      respUsers.forEach((user) => {
-        if (!users.some((u) => u.id === user.id)) {
-          arr.push(user);
+      if (response) {
+        let usersPortion: user[] = [];
+        respUsers.forEach((user) => {
+          if (!users.some((u) => u.id === user.id)) {
+            usersPortion.push(user);
+          }
+        });
+        if (offset === 0) {
+          setUsers([...usersPortion.slice(0, 6)]);
+        } else {
+          setUsers([...users, ...usersPortion.slice(0, 6)]);
         }
-      });
-      if (offset === count) {
-        setUsers([...arr]);
-      } else {
-        setUsers([...users, ...arr]);
       }
     },
-    [offset]
+    [response]
   );
 
   useEffect(() => {
     if (!isSignedUp) {
       return;
     }
-    setOffset(count);
+    setOffset(0);
   }, [isSignedUp]);
 
   useEffect(() => {
@@ -71,8 +67,7 @@ const Users = ({ isSignedUp }) => {
       return;
     }
     pushUsers(response.users);
-    newUsersCounter(response.total_users);
-  }, [response, pushUsers, newUsersCounter]);
+  }, [response, pushUsers]);
 
   if (error) {
     return <h1 className={s.error}>Something went wrong</h1>;
@@ -87,7 +82,7 @@ const Users = ({ isSignedUp }) => {
             users.map((user) => (
               <Card
                 key={user.id}
-                image={user.photo}
+                image={user.photo && user.photo}
                 username={user.name}
                 position={user.position}
                 email={user.email}

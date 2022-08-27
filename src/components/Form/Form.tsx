@@ -85,12 +85,19 @@ const Form = ({ doSignedUp }) => {
   const setFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
     setFileError("");
-    if (e.target.files) {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = (event: any) => {
+        const image = new Image();
+        image.src = event.target.result;
+        image.onload = (e: any) => {
+          if (e.target.width < 70 || e.target.height < 70)
+            setFileError(errorMes.fileSize);
+        };
+      };
       setFileBody(e.target.files[0]);
-      if (
-        e.target.files[0].size / 1024 > 5000 ||
-        e.target.files[0].size / 1024 < 4
-      ) {
+      if (e.target.files[0].size / 1024 > 5000) {
         setFileError(errorMes.fileSize);
       }
     } else {
