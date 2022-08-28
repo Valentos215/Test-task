@@ -211,7 +211,7 @@ const Form = ({ doSignedUp }) => {
                     {formik.errors.phone}
                   </div>
                 )}
-                <p>{"+38 (XXX) XXX - XX - XX"}</p>
+                <p>{"+38XXXXXXXXXX"}</p>
               </div>
               <div className={s.position}>
                 <div className={s.position__title}>Select your position</div>
