@@ -11,13 +11,17 @@ In this project I used Typescript, standard React Hooks, custom React Hooks (use
 ### General
 
 For the fast loading of the application, I made a Skeleton for the banner, and lazy loading for the "successful registration" picture and user photos.
+
 While waiting for a server response, the user sees a loading animation, and the button turns gray and does not respond to clicks.
+
 When you click on "Users" and "Sign Up" buttons, the page smoothly scrolls to the corresponding sections.
+
 After clicking on the logo in the header of the page, the local store is cleared and you can register again (developers opportunity).
 
 ### Users list
 
 When you click on the button "show more", a request is sent to the server for 11 users (6-count + 5-overlay), in case new users have registered while you were on the page. This is done so that the shift of users on the server does not lead to a duplicate of users on your screen or a lack of them.
+
 Newly registered users are not displayed so as not to shift all users on the screen.
 
 ### `yarn eject`
