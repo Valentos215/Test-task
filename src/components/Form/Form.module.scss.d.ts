@@ -1,5 +1,6 @@
 export const active: string;
 export const container: string;
+export const preloader: string;
 export const customUpload: string;
 export const error: string;
 export const errorMes: string;

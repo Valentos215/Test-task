@@ -17,35 +17,33 @@ type user = {
 const Users = ({ isSignedUp }) => {
   const count = 6;
   const overlay = 5;
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState<number | null>(null);
   const [users, setUsers] = useState<user[]>([]);
-  const apiUrl = `users?offset=${offset}&count=${count + overlay}`;
+  const apiUrl = `users?offset=${Number(offset)}&count=${count + overlay}`;
   const { isLoading, response, error, doFetch } = useFetch(apiUrl);
-  const isLastPage = response && response.total_users <= offset + count;
+  const isLastPage = response && response.total_users <= Number(offset) + count;
 
   const buttonClick = () => {
     if (isLoading) {
       return;
     }
     if (!isLastPage) {
-      setOffset(offset + count);
+      setOffset(Number(offset) + count);
     }
   };
 
   const pushUsers = useCallback(
     (respUsers: user[]): void => {
-      if (response) {
-        let usersPortion: user[] = [];
+      let usersPortion: user[] = [];
+      if (Number(offset) === 0) {
+        setUsers(respUsers.slice(0, 6));
+      } else {
         respUsers.forEach((user) => {
           if (!users.some((u) => u.id === user.id)) {
             usersPortion.push(user);
           }
         });
-        if (offset === 0) {
-          setUsers([...usersPortion.slice(0, 6)]);
-        } else {
-          setUsers([...users, ...usersPortion.slice(0, 6)]);
-        }
+        setUsers([...users, ...usersPortion.slice(0, 6)]);
       }
     },
     [response]

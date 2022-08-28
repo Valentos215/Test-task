@@ -121,9 +121,13 @@ const Form = ({ doSignedUp }) => {
     if (!authResponse) {
       return;
     }
+    scroller.scrollTo("users", {
+      duration: 1000,
+      smooth: true,
+      offset: -50,
+    });
     setAuth("authorized");
     doSignedUp();
-    scroller.scrollTo("users", { duration: 1000, smooth: true, offset: -50 });
   }, [authResponse, setAuth, doSignedUp]);
 
   let nameError =
@@ -146,6 +150,11 @@ const Form = ({ doSignedUp }) => {
     return (
       <>
         <div id="form" className={s.wrapper}>
+          {authLoading && (
+            <div className={s.preloader}>
+              <Preloader />
+            </div>
+          )}
           <h1>Working with POST request</h1>
           <div className={s.container}>
             <form className={s.form}>
