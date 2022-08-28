@@ -1,33 +1,24 @@
-# Getting Started with Create React App
+# Test task
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was created to demonstrate my knowledge of React, Hooks and SASS
 
-## Available Scripts
+## Used tools and libraries
 
-In the project directory, you can run:
+In this project I used Typescript, standard React Hooks, custom React Hooks (useFetch, useLocalStorage), AXIOS, Lazy loading, Formik, Yup, SASS.
 
-### `yarn start`
+## Tasks that had to be completed during the work
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### General
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+For the fast loading of the application, I made a Skeleton for the banner, and lazy loading for the "successful registration" picture and user photos.
+While waiting for a server response, the user sees a loading animation, and the button turns gray and does not respond to clicks.
+When you click on "Users" and "Sign Up" buttons, the page smoothly scrolls to the corresponding sections.
+After clicking on the logo in the header of the page, the local store is cleared and you can register again (developers opportunity).
 
-### `yarn test`
+### Users list
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When you click on the button "show more", a request is sent to the server for 11 users (6-count + 5-overlay), in case new users have registered while you were on the page. This is done so that the shift of users on the server does not lead to a duplicate of users on your screen or a lack of them.
+Newly registered users are not displayed so as not to shift all users on the screen.
 
 ### `yarn eject`
 
