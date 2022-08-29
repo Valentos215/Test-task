@@ -16,50 +16,20 @@ While waiting for a server response, the user sees a loading animation, and the 
 
 When you click on "Users" and "Sign Up" buttons, the page smoothly scrolls to the corresponding sections.
 
-After clicking on the logo in the header of the page, the local store is cleared and you can register again (developers opportunity).
-
 ### Users list
 
 When you click on the button "show more", a request is sent to the server for 11 users (6-count + 5-overlay), in case new users have registered while you were on the page. This is done so that the shift of users on the server does not lead to a duplicate of users on your screen or a lack of them.
 
 Newly registered users are not displayed so as not to shift all users on the screen.
 
-### `yarn eject`
+After you register, the list of users collapses to the first page and is updated. Now you can see yourself in this list and the users who registered while you filled out the form.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Fields that are too long are truncated. To see the full information, you need to hover the mouse over the required field.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Form
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Before submitting, the form is validated and does not allow the user to register if there is an error in some field or if the photo does not pass the requirements. An additional message also appears if a user with such data is already registered or that any other server error has occurred.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+After registration, the form disappears and instead of it, the picture "successful registration" appears. The application will never show the registration form again until the localstorage is cleared.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Developers opportunity: After clicking on the logo in the header of the page, the local store is cleared and you can register again.
