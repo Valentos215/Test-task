@@ -4,6 +4,7 @@ import Skeleton from "./components/Description/Skeleton";
 import Form from "./components/Form/Form";
 import Header from "./components/Header/Header";
 import Users from "./components/Users/Users";
+import { CurrentUserProvider } from "./contexts/currentUserContext";
 import CurrentUserChecker from "./hok/currentUserChecker";
 import useLocalStorage from "./hooks/useLocalStorage";
 
@@ -20,14 +21,16 @@ const App = () => {
 
   return (
     <div className="app-wrapper">
-      <CurrentUserChecker>
-        <Header />
-        <React.Suspense fallback={<Skeleton />}>
-          <Description />
-        </React.Suspense>
-        <Users isSignedUp={isSignedUp} />
-        <Form doSignedUp={doSignedUp} />
-      </CurrentUserChecker>
+      <CurrentUserProvider>
+        <CurrentUserChecker>
+          <Header />
+          <React.Suspense fallback={<Skeleton />}>
+            <Description />
+          </React.Suspense>
+          <Users isSignedUp={isSignedUp} />
+          <Form doSignedUp={doSignedUp} />
+        </CurrentUserChecker>
+      </CurrentUserProvider>
     </div>
   );
 };

@@ -1,6 +1,6 @@
+import { CurrentUserContext } from "./../contexts/currentUserContext";
 import axios from "axios";
-import { useEffect, useState, useCallback } from "react";
-import useLocalStorage from "./useLocalStorage";
+import { useEffect, useState, useCallback, useContext } from "react";
 
 type ResponseType = {
   token: string;
@@ -38,7 +38,7 @@ const useFetch = (url: string): UseFetchResult => {
   const [response, setResponse] = useState<ResponseType | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [options, setOptions] = useState<Options>({});
-  const [token] = useLocalStorage("token");
+  const [token] = useContext(CurrentUserContext);
 
   const doFetch = useCallback((options = {}) => {
     setOptions(options);
